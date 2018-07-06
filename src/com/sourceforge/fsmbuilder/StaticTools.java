@@ -17,7 +17,7 @@ final class StaticTools
     {
         Object[] options = {"OK", "I don't want that"};
         return JOptionPane.showOptionDialog(f,
-                                            "The model will be destroyed. Click OK to continue",
+                                            "The program will end now ...",
                                             "Warning",
                                             JOptionPane.DEFAULT_OPTION,
                                             JOptionPane.WARNING_MESSAGE, null, options, options[1]

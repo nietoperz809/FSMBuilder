@@ -11,23 +11,17 @@ import java.io.PrintStream;
 /**
  * This class is the popup menu for empty rooms
  */
-final class VoidMenu extends InnerPopupMenu
+final class MainMenu extends InnerPopupMenu
 {
     /**
      * Creates and displays the menu when user clicks on empty space on the work sheet
      * @param mainFrame Reference to main window that holds the worksheet
      * @param ev        Mouse event that causes the menu to be displayed
      */
-    VoidMenu(final MainFrame mainFrame, final MouseEvent ev)
+    MainMenu (final MainFrame mainFrame, final MouseEvent ev)
     {
-        /**
-         * Get reference to the one and only name cell
-         */
         final NameCell nameCell = mainFrame.getNameCell();
 
-        /**
-         * new transition
-         */
         add(new AbstractAction("New transition here")
         {
             public void actionPerformed(ActionEvent e)
@@ -38,9 +32,6 @@ final class VoidMenu extends InnerPopupMenu
         }
         );
 
-        /**
-         * new transition
-         */
         add(new AbstractAction("New starting transition here")
         {
             public void actionPerformed(ActionEvent e)
@@ -51,9 +42,6 @@ final class VoidMenu extends InnerPopupMenu
         }
         );
 
-        /**
-         * new state
-         */
         add(new AbstractAction("New state here")
         {
             public void actionPerformed(ActionEvent e)
@@ -66,9 +54,6 @@ final class VoidMenu extends InnerPopupMenu
 
         addSeparator();
 
-        /**
-         * Adds a new or modifies the current name cell
-         */
         add(new TextMenuItem("Set Model name", nameCell == null ? "" : nameCell.getName())
         {
             public void actionPerformed(ActionEvent e)
@@ -88,9 +73,6 @@ final class VoidMenu extends InnerPopupMenu
         }
         );
 
-        /**
-         * Let the user enter a comment line into the name cell
-         */
         if (nameCell != null)
         {
             add(new TextMenuItem("Model comment", nameCell.getComment())
@@ -104,9 +86,6 @@ final class VoidMenu extends InnerPopupMenu
             );
         }
 
-        /**
-         * Zoom in
-         */
         if (mainFrame.graph.getScale() < 1)
         {
             add(new AbstractAction("Zoom in")
@@ -119,9 +98,6 @@ final class VoidMenu extends InnerPopupMenu
             );
         }
 
-        /**
-         * Zoom out
-         */
         add(new AbstractAction("Zoom out")
         {
             public void actionPerformed(ActionEvent e)
@@ -133,9 +109,6 @@ final class VoidMenu extends InnerPopupMenu
 
         addSeparator();
 
-        /**
-         * Saves model to disk
-         */
         add(new AbstractAction("Save Model")
         {
             public void actionPerformed(ActionEvent e)
@@ -165,9 +138,6 @@ final class VoidMenu extends InnerPopupMenu
         }
         );
 
-        /**
-         * Loads model from disk
-         */
         add(new AbstractAction("Load Model")
         {
             public void actionPerformed(ActionEvent e)
@@ -204,9 +174,6 @@ final class VoidMenu extends InnerPopupMenu
 
         addSeparator();
 
-        /**
-         * Validates the model
-         */
         add(new AbstractAction("Validate Model")
         {
             public void actionPerformed(ActionEvent e)
@@ -233,9 +200,6 @@ final class VoidMenu extends InnerPopupMenu
         }
         );
 
-        /**
-         * Makes C code from model
-         */
         add(new AbstractAction("Generate C Code")
         {
             public void actionPerformed(ActionEvent e)
@@ -273,9 +237,6 @@ final class VoidMenu extends InnerPopupMenu
 
         addSeparator();
 
-        /**
-         * Clear the work sheet
-         */
         if (!mainFrame.isModelEmpty())
         {
             add(new AbstractAction("Delete entire Model")
@@ -292,9 +253,6 @@ final class VoidMenu extends InnerPopupMenu
             addSeparator();
         }
 
-        /**
-         * Run other builder
-         */
         add(new AbstractAction("New FSM Builder")
         {
             public void actionPerformed(ActionEvent e)
@@ -304,9 +262,6 @@ final class VoidMenu extends InnerPopupMenu
         }
         );
 
-        /**
-         * Run other builder
-         */
         add(new AbstractAction("Toggle Monitor")
         {
             public void actionPerformed(ActionEvent e)
@@ -316,9 +271,6 @@ final class VoidMenu extends InnerPopupMenu
         }
         );
 
-        /**
-         * Displays the menu on mouse point
-         */
         positionAndShow(mainFrame, ev);
     }
 }

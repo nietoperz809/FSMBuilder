@@ -69,7 +69,7 @@ class MouseInputHandler extends BasicMarqueeHandler
             }
             else
             {
-                new VoidMenu (mainFrame, e);
+                new MainMenu(mainFrame, e);
             }
         }
         else

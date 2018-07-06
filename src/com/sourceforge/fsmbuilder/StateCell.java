@@ -106,7 +106,7 @@ final class StateCell extends DefaultGraphCell
     /**
      * Makes all ports for a StateCell
      */
-    void makePorts()
+    private void makePorts ()
     {
         DefaultPort p;
         int step = GraphConstants.PERMILLE / 16;

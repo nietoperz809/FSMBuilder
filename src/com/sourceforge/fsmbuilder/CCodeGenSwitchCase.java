@@ -69,7 +69,7 @@ final class CCodeGenSwitchCase extends CCodeGenBase
 
         // Header
         line ("/* " + headerFileName + " */", 1);
-        line ("/* This file contains all definitons for the FSM: " + fsm.name + " */", 1);
+        line ("/* This file contains all definitions for the FSM: " + fsm.name + " */", 1);
         line ("/* Machine generated file - BE CAREFUL WITH MODIFICATIONS - */", 1);
         if (fsm.comment != null)
         {
@@ -85,7 +85,7 @@ final class CCodeGenSwitchCase extends CCodeGenBase
         line ("typedef enum " + fsm.name + "_State", 1);
         line ("{", 1);
         tablevel = 1;
-        line ("INVALID_STATE = 0, /* This state is undefinded */", 1);
+        line ("INVALID_STATE = 0, /* This state is undefined */", 1);
         for (StateData state : fsm.states)
         {
             line (makeStateName (state.name) + ",", 1);
@@ -314,7 +314,7 @@ final class CCodeGenSwitchCase extends CCodeGenBase
                 if (next != null)
                 {
                     tablevel++;
-                    if (!next.equals (state.name)) // Skip redundat code on self loops
+                    if (!next.equals (state.name)) // Skip redundant code on self loops
                     {
                         line ("theState = " + makeStateName (next) + ";", 1);
                         if (state.exit != null)

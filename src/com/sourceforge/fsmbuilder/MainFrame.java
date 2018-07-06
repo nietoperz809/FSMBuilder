@@ -3,7 +3,6 @@ package com.sourceforge.fsmbuilder;
 import org.jgraph.JGraph;
 import org.jgraph.graph.DefaultGraphCell;
 import org.jgraph.graph.DefaultGraphModel;
-import static org.jgraph.graph.DefaultGraphModel.getRoots;
 import org.jgraph.graph.GraphConstants;
 
 import javax.swing.*;
@@ -16,6 +15,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.*;
 import java.util.ArrayList;
+
+import static org.jgraph.graph.DefaultGraphModel.getRoots;
 
 /**
  * This is the main frame
@@ -48,7 +49,7 @@ final class MainFrame extends JFrame
     /**
      * Just toggle the memMon
      */
-    public void toggleMonitor()
+    void toggleMonitor ()
     {
         if (monIsRunning)
         {
@@ -213,7 +214,7 @@ final class MainFrame extends JFrame
                 arr.add(((StateCell) item).getData());
             }
         }
-        return arr.toArray(new StateData[arr.size()]);
+        return arr.toArray(new StateData[0]);
     }
 
     /**
@@ -259,7 +260,7 @@ final class MainFrame extends JFrame
                 arr.add(trdata);
             }
         }
-        return arr.toArray(new TransitionData[arr.size()]);
+        return arr.toArray(new TransitionData[0]);
     }
 
     /**

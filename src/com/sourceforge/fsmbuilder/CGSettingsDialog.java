@@ -57,7 +57,7 @@ public class CGSettingsDialog extends JDialog
     {
         try
         {
-            InputStream fis = new FileInputStream(".ccgoptions");
+            FileInputStream fis = new FileInputStream(".ccgoptions");
             ObjectInputStream o = new ObjectInputStream(fis);
             cgOptions = (CGOptions) o.readObject();
             fis.close();
@@ -80,7 +80,7 @@ public class CGSettingsDialog extends JDialog
     {
         try
         {
-            OutputStream fos = new FileOutputStream(".ccgoptions");
+            FileOutputStream fos = new FileOutputStream(".ccgoptions");
             ObjectOutputStream o = new ObjectOutputStream(fos);
             o.writeObject(cgOptions);
             fos.close();

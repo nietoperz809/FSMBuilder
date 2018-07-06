@@ -3,13 +3,14 @@ package com.sourceforge.fsmbuilder;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
-import static java.awt.Color.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.Date;
+
+import static java.awt.Color.*;
 
 /*
  * @(#)MemoryMonitor.java	1.37 06/08/29
@@ -115,8 +116,8 @@ public class MemoryMonitor extends JPanel
     public class Surface extends JPanel implements Runnable
     {
 
-        public Thread thread;
-        public long sleepAmount = 300;
+        Thread thread;
+        long sleepAmount = 300;
         private int w, h;
         private BufferedImage bimg;
         private Graphics2D big;
@@ -134,7 +135,7 @@ public class MemoryMonitor extends JPanel
         private final Color mfColor = new Color(0, 100, 0);
         private String usedStr;
 
-        public Surface()
+        Surface ()
         {
             setBackground(BLACK);
             addMouseListener(new MouseAdapter()

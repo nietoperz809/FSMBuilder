@@ -28,7 +28,7 @@ final class FSMData
      * Debugging function that prints the FSM content
      * @param out Is the printstream where output goes
      */
-    void print (PrintStream out)
+    private void print (PrintStream out)
     {
         out.println ("N:" + name);
         for (TransitionData tr : transitions)

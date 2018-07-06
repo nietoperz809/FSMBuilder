@@ -1,8 +1,7 @@
 package com.sourceforge.fsmbuilder;
 
 import java.io.IOException;
-import java.io.File;
-import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.HashSet;
 
 /**
@@ -13,52 +12,48 @@ public class CCodeGenBase
     /**
      * Stores data that describes the FSM
      */
-    protected final FSMData fsm;
+    final FSMData fsm;
     /**
      * Code generator options
      */
-    protected final CGOptions opt;
+    final CGOptions opt;
     /**
      * Used to build the source files
      */
-    protected StringBuilder sb;
+    StringBuilder sb;
     /**
      * System dependent newline character(s)
      */
-    protected final String newline = System.getProperty ("line.separator");
-    /**
-     * One tab - some spaces here
-     */
-    private final String tab = "    ";
+    final String newline = System.getProperty ("line.separator");
     /**
      * Number of tabs that are actually printed
      */
-    protected int tablevel = 0;
+    int tablevel = 0;
     /**
      * Holds all unique transition names
      */
-    protected final HashSet<String> transitionNames = new HashSet<String> ();
+    final HashSet<String> transitionNames = new HashSet<String> ();
     /**
      * Holds all unique action names
      */
-    protected final HashSet<String> actionNames = new HashSet<String> ();
+    final HashSet<String> actionNames = new HashSet<String> ();
 
-    protected final HashSet<String> eventNames = new HashSet<String> ();
+    final HashSet<String> eventNames = new HashSet<String> ();
 
     /**
      * Name of the main header file
      */
-    protected final String headerFileName;
+    final String headerFileName;
     /**
      * Name of the FSM implementation file
      */
-    protected final String mainFileName;
+    final String mainFileName;
     /**
      * Name of the file that contains callback functions
      */
-    protected final String callbackFileName;
+    final String callbackFileName;
 
-    public CCodeGenBase (FSMData fsmData, CGOptions cgOptions)
+    CCodeGenBase (FSMData fsmData, CGOptions cgOptions)
     {
         fsm = fsmData;
         mainFileName = "FSM_" + fsmData.name + ".c";
@@ -73,7 +68,7 @@ public class CCodeGenBase
      * @param name the real name
      * @return converted name
      */
-    protected String makeStateName (final String name)
+    String makeStateName (final String name)
     {
         return fsm.name + "_S_" + name;
     }
@@ -84,13 +79,12 @@ public class CCodeGenBase
      * @param filename Name of the generated file
      * @throws java.io.IOException If file cannot be created
      */
-    protected void saveFile (String filename) throws IOException
+    void saveFile (String filename) throws IOException
     {
-        File f = new File (opt.path + filename);
-        FileWriter fw = new FileWriter (f);
-        fw.write (sb.toString ());
-        fw.flush ();
-        fw.close ();
+        try (PrintWriter out = new PrintWriter(opt.path + filename))
+        {
+            out.println(sb.toString ());
+        }
     }
 
     /**
@@ -99,7 +93,7 @@ public class CCodeGenBase
      * @param name the real name
      * @return converted name
      */
-    protected String makeTransName (final String name)
+    String makeTransName (final String name)
     {
         return fsm.name + "_T_" + name;
     }
@@ -110,7 +104,7 @@ public class CCodeGenBase
      * @param name the real name
      * @return converted name
      */
-    protected String makeEventName (final String name)
+    String makeEventName (final String name)
     {
         return "Event_" + fsm.name + "_" + name;
     }
@@ -121,7 +115,7 @@ public class CCodeGenBase
      * @param name the real name
      * @return converted name
      */
-    protected String makeActionName (final String name)
+    String makeActionName (final String name)
     {
         return "Action_" + fsm.name + "_" + name;
     }
@@ -132,7 +126,7 @@ public class CCodeGenBase
      * @param s Content of debug output
      * @return A code line that is the debug output statement
      */
-    protected String makeDebugLine (final String s)
+    String makeDebugLine (final String s)
     {
         return "puts (\"" + s + "\");";
     }
@@ -143,15 +137,14 @@ public class CCodeGenBase
      * @param s main argument in footer line
      * @return The generated footer line
      */
-    protected String makeFooter (final String s)
+    String makeFooter (final String s)
     {
-        return new StringBuilder ()
-                .append ("/* End of FSM: ")
-                .append (fsm.name).append (" ")
-                .append (s)
-                .append ("  */")
-                .append (newline)
-                .append (newline).toString ();
+        return "/* End of FSM: " +
+                fsm.name + " " +
+                s +
+                "  */" +
+                newline +
+                newline;
     }
 
     /**
@@ -161,6 +154,11 @@ public class CCodeGenBase
     {
         for (int s = 0; s < tablevel; s++)
         {
+            /*
+      One tab - some spaces here
+     */ /**
+         * One tab - some spaces here
+         */String tab = "    ";
             sb.append (tab);
         }
     }
@@ -170,7 +168,7 @@ public class CCodeGenBase
      *
      * @param num Number of NL to print
      */
-    protected void outputNewLines (int num)
+    void outputNewLines (int num)
     {
         for (int s = 0; s < num; s++)
         {
@@ -184,7 +182,7 @@ public class CCodeGenBase
      * @param s        The line
      * @param newlines Number of newlines after the line was printed
      */
-    protected void line (String s, int newlines)
+    void line (String s, int newlines)
     {
         outputTabs ();
         sb.append (s);
@@ -196,7 +194,7 @@ public class CCodeGenBase
      *
      * @param num Number of chars to remove
      */
-    protected void removeLast (int num)
+    void removeLast (int num)
     {
         int len = sb.length ();
         sb.delete (len - num, len);
@@ -205,7 +203,7 @@ public class CCodeGenBase
     /**
      * Initializes code generation for a single file
      */
-    protected void startCode ()
+    void startCode ()
     {
         tablevel = 0;
         sb = new StringBuilder ();
@@ -214,12 +212,12 @@ public class CCodeGenBase
     /**
      * Finalizes code generation for a single file
      */
-    protected void endCode ()
+    void endCode ()
     {
         sb = null;
     }
 
-    protected boolean isStartingState (String name)
+    boolean isStartingState (String name)
     {
         for (TransitionData transition : fsm.transitions)
         {
@@ -238,7 +236,7 @@ public class CCodeGenBase
      * @param transitionName Name of transition
      * @return The name of the next state or <b>null</b> if there is none
      */
-    protected String findStateChange (String stateName, String transitionName)
+    String findStateChange (String stateName, String transitionName)
     {
         if (transitionName == null)
         {
@@ -266,7 +264,7 @@ public class CCodeGenBase
      * @param transition Transition name
      * @return found action or <b>null</b> if not found
      */
-    protected String findAction (String stateFrom, String stateTo, String transition)
+    String findAction (String stateFrom, String stateTo, String transition)
     {
         for (TransitionData trans : fsm.transitions)
         {
@@ -296,7 +294,7 @@ public class CCodeGenBase
      * @param name The state name
      * @return The state data object or <b>null</b> if not found
      */
-    protected StateData stateFromName (String name)
+    StateData stateFromName (String name)
     {
         for (StateData state : fsm.states)
         {
